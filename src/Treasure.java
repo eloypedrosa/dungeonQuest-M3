@@ -1,4 +1,5 @@
 public class Treasure {
+
     
     // Attributes
 
@@ -16,10 +17,6 @@ public class Treasure {
     } 
 
     // Methods
-
-
-
-
 
 
 }
