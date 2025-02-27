@@ -17,7 +17,10 @@ public class Treasure {
 
     // Methods
 
+    public void xd(){
 
+        
+    }
 
 
 
