@@ -1,6 +1,6 @@
 public class Player {
     
-    // Atributos
+    // Attributes
 
     private String name;
     private int hp;
@@ -12,11 +12,11 @@ public class Player {
     private int posY;
     private Treasure inventory;
 
+    // Builders
 
-    // Constructores
 
 
-    // Metodos
+    // Methods
 
 
 }
