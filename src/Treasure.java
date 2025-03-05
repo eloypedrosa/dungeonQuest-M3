@@ -6,23 +6,25 @@ public class Treasure {
     private String name;
     private int value;
     private double weight;
+ 
 
     // Builders
 
-    public Treasure (String name, int value, double weight){
+    public Treasure (String name, int value){
         this.name = name;
         this.value = value;
-        this.weight = weight;
+        this.weight = value * 0.2;
 
     } 
 
     // Methods
 
-    public void xd(){
+    public String toString(){
+        return "Name: " + this.name + "\n" + "Value: " + this.value + " gold";
 
-        
     }
 
+   
 
 
 
