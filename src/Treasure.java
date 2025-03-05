@@ -6,6 +6,7 @@ public class Treasure {
     private String name;
     private int value;
     private double weight;
+ 
 
     // Builders
 
@@ -19,10 +20,11 @@ public class Treasure {
     // Methods
 
     public String toString(){
-        return "Name: " + this.name + "\n" + "Value: " + this.value + " gold"
+        return "Name: " + this.name + "\n" + "Value: " + this.value + " gold";
 
     }
 
+   
 
 
 
