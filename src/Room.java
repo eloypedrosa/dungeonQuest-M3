@@ -1,4 +1,4 @@
 public class Room {
-    String[] type = ["normal", "brigde", "cobweb"]; 
+    String[] type = {"normal", "brigde", "cobweb"}; 
     
 }

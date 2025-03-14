@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Scanner;
 
 public class Player {
     
@@ -126,9 +127,89 @@ public class Player {
                   // If he answers any other thing
                      // Ask againt telling him that he has to answer 'y' or 'n'
 
-                     
+           
    }
 
 
+   public void move(char direction, char[][] dungeon) {   
+    // North
+    if (direction == 'N'){
+            if (this.posY - 1 > 0){
+                this.posY--;
+                System.out.println("You moved to the north");
+            } else {
+                System.out.println("If you go to the North, you will leave the dungeon. ");
+                leaveTheDungeon();
 
+            }
+        } else 
+    // South
+    if (direction == 'S'){
+        if (this.posY + 1 > dungeon.length){
+            this.posY++;
+            System.out.println("You moved to the south");
+        } else {
+            System.out.println("If you go to the South, you will leave the dungeon. ");
+            leaveTheDungeon();
+
+        }
+    } else 
+    // West
+    if (direction == 'W'){
+        if (this.posX - 1 > 0){
+            this.posX--;
+            System.out.println("You moved to the west");
+        } else {
+            System.out.println("If you go to the West, you will leave the dungeon. ");
+            leaveTheDungeon();
+
+        }
+    }
+    // East
+    if (direction == 'E'){
+        if (this.posX - 1 > dungeon.length){
+            this.posX--;
+            System.out.println("You moved to the East");
+        } else {
+            System.out.println("If you go to the East, you will leave the dungeon. ");
+            leaveTheDungeon();
+
+        }
+    } else {
+        System.out.println("Invalid direction");
+
+
+    }
+
+
+   }
+
+   // Use this to leave the dungeon, used in the function "move" to not repeat a lot of
+   // code and it can e useful to have it for later
+
+   private boolean leaveTheDungeon() {
+    // Create variable answer and a Scanner used to ask the user if 
+    // he is sure to leave the Dungeon.
+
+    Scanner teclado = new Scanner(System.in);
+
+        char answer = '*';
+
+        // The user wont be able to keep going without answer Y or N (Yes or No)
+
+    while (!(answer == 'Y') || !(answer == 'N')){
+    System.out.println("Do you want to leave the dungeon? (Y/N)");
+     answer = teclado.next().charAt(0);
+
+   }
+   // If it says yes we return the true, meaning that he will leave the dungeon
+   if (answer == 'Y'){
+    return true;
+
+    // If not it will return false, meaning that he will stay in the dungeon (for now)
+} else{
+    return false;
+
+}
+}
 }
