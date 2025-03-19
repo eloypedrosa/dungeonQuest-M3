@@ -1,6 +1,8 @@
 import java.util.Random;
 
 public class Room {
+    String[] type = {"normal", "brigde", "cobweb"}; 
+
     Random random = new Random();
 
     private int randomNum = (int) (Math.random() * ((2 - 0) + 1));
