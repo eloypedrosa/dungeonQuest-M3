@@ -1,7 +1,7 @@
 import java.util.Random;
 
 public class Room {
-    String[] type = {"normal", "brigde", "cobweb"}; 
+    // String[] type = {"normal", "brigde", "cobweb"}; 
 
     Random random = new Random();
 
@@ -48,6 +48,10 @@ public class Room {
 
     public String getType() {
         return this.type;
+    }
+
+    public Treasure getTreasure() {
+        return treasure;
     }
 
     public void explore() {
