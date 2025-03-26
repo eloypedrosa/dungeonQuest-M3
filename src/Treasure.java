@@ -23,7 +23,7 @@ public class Treasure {
     }
 
     
-
+@Override
     public String toString(){
         return "Name: " + this.name + "\n" + "Value: " + this.value + " gold";
 
