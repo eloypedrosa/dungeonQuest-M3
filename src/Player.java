@@ -155,7 +155,7 @@ public class Player {
                     totalWeight =+ selectedTreasure.getWeight();
 
                 }
-                
+                 
                 // Create a variable to count and leave if there is no slots for the treasure
                 // and a boolean to leave the while when the treasure is found and show
                 // the message that the tresure was not added
