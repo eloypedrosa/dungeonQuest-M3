@@ -70,6 +70,22 @@ public class Player {
          this.experiencie = experiencie;
      }
 
+     // This setters/getteres are used for the special effects that tresure
+     // may have
+
+     public int getAttackValue() {
+         return attackValue;
+     }
+
+     public void setAttackValue(int attackValue) {
+         this.attackValue = attackValue;
+     }
+
+     public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
+     
 
      // ------------------------------------------------------------------------------------------------------------------------------
          
