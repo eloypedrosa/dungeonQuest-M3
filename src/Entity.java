@@ -48,6 +48,9 @@ public class Entity {
         if (this.hp <= 0) {
             player.setExperiencie(player.getExperiencie() + (this.hp * 2));
             this.alive = false;
+            
+            System.out.println("Enemy fainted!");
+            System.out.println("You won " + (this.hp * 2) + " points of experience!");
 
         } else {
             player.receiveDamage(1);

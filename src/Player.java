@@ -26,7 +26,7 @@ public class Player {
         this.strength = strength;
         posX = 0;
         posY = 0;
-         Treasure[] inventory = new Treasure[strength];
+        Treasure[] inventory = new Treasure[strength];
 
      }
 
@@ -71,18 +71,22 @@ public class Player {
      }
 
 
-     // -----------------------------------------------------------------------------------------------------------------------
+     // ------------------------------------------------------------------------------------------------------------------------------
          
     public void receiveDamage(int damage){
       this.hp -= damage;
       if (this.hp <= 0) {
-         // Function die / lose (to do)
-         // lose();
-         
+        lose();
       }
   }
 
+    public void lose(){
+        System.out.println("GAME OVER");
+        System.out.println("You died in the room " + this.posX + " - " + this.posY);
+        System.out.println("Try better next time!");
 
+
+    }
 
      public void attackEntity (Entity entity) {
       
@@ -105,28 +109,79 @@ public class Player {
    }
 
 
-   public void explore (Treasure treasure){
-         
-         // If there is no treasure in the room
+   public void explore (Room room){
+        Scanner teclado = new Scanner(System.in);    
+        char answer = 'z';
+        // Used later to make the sum of the wheight that the character has in his inventory
+        Treasure selectedTreasure;
+        double totalWeight;
+/*
+        if (room.getTreasure() = null) {
+            // If there is no treasure in the room
             // Show a message with telling the player that there
             // is no chest in the room
-         
-         // If there is a chest in the room
-            // Show the info of the treasure
-         
-               // Ask the player if he wants to pick
-               // the tresure ('y'/'n')
-                 
-                  // If he answers 'y'
-                     // Add the treasure to the inventory
-                 
-                  // If he answers 'n'
-                     // Show a message telling the player that he did not
-                     // pick the treasure
-                 
-                  // If he answers any other thing
-                     // Ask againt telling him that he has to answer 'y' or 'n'
+            
+            System.out.println("There is no treasure in this room");
 
+         } else {
+            // If there is a chest in the room
+            // Show the info of the treasure
+            System.out.println("There is a treasure in the room!")
+            System.out.println(" ")
+            room.Treasure.toString();
+
+            // Ask the player if he wants to pick
+            // the tresure ('y'/'n')
+
+            System.out.println("Would you want to pick the treasure? (y/n)");
+            answer = teclado.next.charAt(1);
+
+            while (!(answer = 'y') || !(answer = 'n')){
+                System.out.pritnln("Please write a valid answer (y/n)");
+                answer = teclado.next.charAt(1);
+            
+            }
+
+            if (answer = 'y'){
+               // If he answers 'y'
+                 // Check if it has space in the invetory
+                for (int i = 0; i < this.inventory.length; i++) {
+                    selectedTreasure = inventory[i];
+                    totalWeight =+ selectedTreasure.getWeight();
+
+                }
+                // Create a variable to count and leave if there is no slots for the treasure
+                // and a boolean to leave the while when the treasure is found and show
+                // the message that the tresure was not added
+                    int i = 0;
+                    boolean treasureAdded = false;
+                if(totalWeight + room.Treasure.getWeight < this.strength){
+                 // If it has space
+                    // Add the treasure to the inventory
+
+                    while ((i < this.inventory.length) || treasureAdded == false)
+                        if (inventory[i] == null) {
+                            inventory[i] == room.Treasure;
+                            treasureAdded = true;  
+                        }
+                        i++;
+                } 
+                // If not
+                    // Show a message telling that the player dosen't
+                    // has space
+                if (treasureAdded == false){
+                    System.out.println("You dont have enough space in your inventory");
+                }
+            // If he answers 'n'
+                // Go back to the menu
+
+            }
+
+         }
+        // After exploring, change the room state to explored
+        room.SetExplored(true);
+
+   */     
            
    }
 
@@ -164,7 +219,7 @@ public class Player {
             leaveTheDungeon();
 
         }
-    }
+    } else 
     // East
     if (direction == 'E'){
         if (this.posX - 1 > dungeon.length){
@@ -212,4 +267,5 @@ public class Player {
 
 }
 }
+
 }

@@ -5,6 +5,7 @@ public class Dungeon {
     private int height = random.nextInt(10) + 2;
     private int width = random.nextInt(10) + 2;
     private Room[][] grid = new Room[height][width];
+    
 
     public Dungeon() {
     }

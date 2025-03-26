@@ -18,6 +18,11 @@ public class Treasure {
     } 
 
     // Methods
+    public double getWeight() {
+        return weight;
+    }
+
+    
 
     public String toString(){
         return "Name: " + this.name + "\n" + "Value: " + this.value + " gold";
