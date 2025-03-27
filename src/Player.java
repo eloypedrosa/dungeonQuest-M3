@@ -70,6 +70,22 @@ public class Player {
          this.experiencie = experiencie;
      }
 
+     // This setters/getteres are used for the special effects that tresure
+     // may have
+
+     public int getAttackValue() {
+         return attackValue;
+     }
+
+     public void setAttackValue(int attackValue) {
+         this.attackValue = attackValue;
+     }
+
+     public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
+     
 
      // ------------------------------------------------------------------------------------------------------------------------------
          
@@ -113,10 +129,11 @@ public class Player {
         Scanner teclado = new Scanner(System.in);    
         char answer = 'z';
         // Used later to make the sum of the wheight that the character has in his inventory
+
         Treasure selectedTreasure;
-        double totalWeight;
-/*
-        if (room.getTreasure() = null) {
+        double totalWeight = 0;
+
+        if (room.getTreasure() == null) {
             // If there is no treasure in the room
             // Show a message with telling the player that there
             // is no chest in the room
@@ -124,48 +141,55 @@ public class Player {
             System.out.println("There is no treasure in this room");
 
          } else {
+            // We put the treasure in a object to use his methods and make the process easier
+            Treasure roomTreasure = room.getTreasure();
+
             // If there is a chest in the room
             // Show the info of the treasure
-            System.out.println("There is a treasure in the room!")
-            System.out.println(" ")
-            room.Treasure.toString();
+            System.out.println("There is a treasure in the room!");
+            System.out.println(" ");
+            roomTreasure.toString();
 
             // Ask the player if he wants to pick
             // the tresure ('y'/'n')
 
             System.out.println("Would you want to pick the treasure? (y/n)");
-            answer = teclado.next.charAt(1);
+            answer = teclado.next().charAt(1);
 
-            while (!(answer = 'y') || !(answer = 'n')){
-                System.out.pritnln("Please write a valid answer (y/n)");
-                answer = teclado.next.charAt(1);
+            while (!(answer == 'y') || !(answer == 'n')){
+                System.out.println("Please write a valid answer (y/n)");
+                answer = teclado.next().charAt(1);
             
             }
 
-            if (answer = 'y'){
+            if (answer == 'y'){
                // If he answers 'y'
                  // Check if it has space in the invetory
+
                 for (int i = 0; i < this.inventory.length; i++) {
                     selectedTreasure = inventory[i];
                     totalWeight =+ selectedTreasure.getWeight();
 
                 }
+                 
                 // Create a variable to count and leave if there is no slots for the treasure
                 // and a boolean to leave the while when the treasure is found and show
                 // the message that the tresure was not added
                     int i = 0;
                     boolean treasureAdded = false;
-                if(totalWeight + room.Treasure.getWeight < this.strength){
+
+                if(totalWeight + roomTreasure.getWeight() < this.strength){
                  // If it has space
                     // Add the treasure to the inventory
 
-                    while ((i < this.inventory.length) || treasureAdded == false)
+                    while ((i < this.inventory.length) || treasureAdded == false){
                         if (inventory[i] == null) {
-                            inventory[i] == room.Treasure;
+                            this.inventory[i] = roomTreasure;
                             treasureAdded = true;  
                         }
                         i++;
                 } 
+            }
                 // If not
                     // Show a message telling that the player dosen't
                     // has space
@@ -179,9 +203,9 @@ public class Player {
 
          }
         // After exploring, change the room state to explored
-        room.SetExplored(true);
+        room.setExplored(true);
 
-   */     
+     
            
    }
 
