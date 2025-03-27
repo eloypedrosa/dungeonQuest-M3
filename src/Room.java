@@ -54,13 +54,9 @@ public class Room {
         return treasure;
     }
 
-    public void explore() {
-        this.explored = true;
-        if (this.treasure != null) {
 
-        }
-        // loose();
-
+    public void setExplored(boolean explored) {
+        this.explored = explored;
     }
 
     @Override
