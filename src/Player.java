@@ -1,295 +1,203 @@
-import java.util.Random;
-import java.util.Scanner;
-
 public class Player {
-    
-    // Attributes
+  private String name; // nombre del jugador
+  private int life; // vida del jugador
+  private int attack; // fuerza de ataque
+  private int experience; // experiencia (no se usa mucho)
+  private int agility; // agilidad pra esquivar
+  private int strength; // fuerza para cargar tesoros
+  private int row, col; // posicion en el dungeon
+  private Treasure[] equipment; // tesoros que lleva
+  private int equipmentCount; // cuantos tesoros lleva
 
-    private String name;
-    private int hp;
-    private int attackValue;
-    private int experiencie;
-    private int agility;
-    private int strength;
-    private int posX;
-    private int posY;
-    private Treasure [] inventory; 
-
-    // Builders
-
-     public Player (String name, int hp, int attack, int agility, int strength){
-        this.name = name;
-        this.hp = hp;
-        this.attackValue = attack;
-        experiencie = 0;
-        this.agility = agility;
-        this.strength = strength;
-        posX = 0;
-        posY = 0;
-        Treasure[] inventory = new Treasure[strength];
-
-     }
-
-    // Methods
-
-     // --------------------------- GETTERS & SETTERS -----------------------------------------------------------------------
-
-     public int getHp() {
-         return hp;
-     }
-
-     public void setHp(int hp) {
-         this.hp = hp;
-     }
-
-     public int getAgility() {
-         return agility;
-     }
-
-     public int getPosX() {
-         return posX;
-     }
-
-     public int getPosY() {
-         return posY;
-     }
-
-     public void setPosX(int posX) {
-         this.posX = posX;
-     }
-
-     public void setPosY(int posY) {
-         this.posY = posY;
-     }
-
-     public int getExperiencie() {
-         return experiencie;
-     }
-
-     public void setExperiencie(int experiencie) {
-         this.experiencie = experiencie;
-     }
-
-     // This setters/getteres are used for the special effects that tresure
-     // may have
-
-     public int getAttackValue() {
-         return attackValue;
-     }
-
-     public void setAttackValue(int attackValue) {
-         this.attackValue = attackValue;
-     }
-
-     public void setStrength(int strength) {
-        this.strength = strength;
-    }
-
-     
-
-     // ------------------------------------------------------------------------------------------------------------------------------
-         
-    public void receiveDamage(int damage){
-      this.hp -= damage;
-      if (this.hp <= 0) {
-        lose();
-      }
+  public Player(String name) {
+    this.name = name;
+    this.life = 5 + (int) (Math.random() * 16); // vida aleatoria
+    this.attack = 1 + (int) (Math.random() * 4); // ataque aleatorio
+    this.experience = 0; // empieza con 0 xp
+    this.agility = 4 + (int) (Math.random() * 8); // agilidad aleatoria
+    this.strength = 4 + (int) (Math.random() * 8); // fuerza aleatoria
+    this.row = 0; // empieza en la esquina
+    this.col = 0; // arriba a la izq
+    this.equipment = new Treasure[strength]; // espacio segun su fuerza
+    this.equipmentCount = 0; // empieza sin nada
   }
 
-    public void lose(){
-        System.out.println("GAME OVER");
-        System.out.println("You died in the room " + this.posX + " - " + this.posY);
-        System.out.println("Try better next time!");
+  // getters basicos
+  public int getLife() {
+    return life;
+  }
 
+  public int getRow() {
+    return row;
+  }
 
-    }
+  public int getCol() {
+    return col;
+  }
 
-     public void attackEntity (Entity entity) {
-      
-      Random random = new Random(); 
+  // metodo pa explorar la sala
+  public void explore(Room room) {
+    if (!room.isExplored()) { // si no esta explorada
+      room.setExplored(true); // la marca como explorada
+      if (room.getTreasure() != null && equipmentCount < equipment.length) {
+        if (room.getTreasure().isTp()) { // es el tesoro un tp?
+          int newRow = (int) (Math.random() * Dungeon.dungeon.length);
+          int newCol = (int) (Math.random() * Dungeon.dungeon[0].length);
 
-      entity.receiveDamage(random.nextInt(this.attackValue), this);
+          this.row = newRow;
+          this.col = newCol;
 
-     }
-
-   public String toString () {
-      return "Nom: " + name + "\n" +
-            "HP: " + hp + "\n" +
-            "Attack: " + attackValue + "\n" +
-            "Experiencie: " + experiencie + "\n" +
-            "Agility: " + agility + "\n" +
-            "Strenght: " + strength + "\n" +
-            "Position: " + posX + ", " + posY + "\n" +
-            "Inventory: " + inventory + "\n";
-
-   }
-
-
-   public void explore (Room room){
-        Scanner teclado = new Scanner(System.in);    
-        char answer = 'z';
-        // Used later to make the sum of the wheight that the character has in his inventory
-
-        Treasure selectedTreasure;
-        double totalWeight = 0;
-
-        if (room.getTreasure() == null) {
-            // If there is no treasure in the room
-            // Show a message with telling the player that there
-            // is no chest in the room
-            
-            System.out.println("There is no treasure in this room");
-
-         } else {
-            // We put the treasure in a object to use his methods and make the process easier
-            Treasure roomTreasure = room.getTreasure();
-
-            // If there is a chest in the room
-            // Show the info of the treasure
-            System.out.println("There is a treasure in the room!");
-            System.out.println(" ");
-            roomTreasure.toString();
-
-            // Ask the player if he wants to pick
-            // the tresure ('y'/'n')
-
-            System.out.println("Would you want to pick the treasure? (y/n)");
-            answer = teclado.next().charAt(1);
-
-            while (!(answer == 'y') || !(answer == 'n')){
-                System.out.println("Please write a valid answer (y/n)");
-                answer = teclado.next().charAt(1);
-            
-            }
-
-            if (answer == 'y'){
-               // If he answers 'y'
-                 // Check if it has space in the invetory
-
-                for (int i = 0; i < this.inventory.length; i++) {
-                    selectedTreasure = inventory[i];
-                    totalWeight =+ selectedTreasure.getWeight();
-
-                }
-                 
-                // Create a variable to count and leave if there is no slots for the treasure
-                // and a boolean to leave the while when the treasure is found and show
-                // the message that the tresure was not added
-                    int i = 0;
-                    boolean treasureAdded = false;
-
-                if(totalWeight + roomTreasure.getWeight() < this.strength){
-                 // If it has space
-                    // Add the treasure to the inventory
-
-                    while ((i < this.inventory.length) || treasureAdded == false){
-                        if (inventory[i] == null) {
-                            this.inventory[i] = roomTreasure;
-                            treasureAdded = true;  
-                        }
-                        i++;
-                } 
-            }
-                // If not
-                    // Show a message telling that the player dosen't
-                    // has space
-                if (treasureAdded == false){
-                    System.out.println("You dont have enough space in your inventory");
-                }
-            // If he answers 'n'
-                // Go back to the menu
-
-            }
-
-         }
-        // After exploring, change the room state to explored
-        room.setExplored(true);
-
-     
-           
-   }
-
-
-   public void move(char direction, char[][] dungeon) {   
-    // North
-    if (direction == 'N'){
-            if (this.posY - 1 > 0){
-                this.posY--;
-                System.out.println("You moved to the north");
-            } else {
-                System.out.println("If you go to the North, you will leave the dungeon. ");
-                leaveTheDungeon();
-
-            }
-        } else 
-    // South
-    if (direction == 'S'){
-        if (this.posY + 1 > dungeon.length){
-            this.posY++;
-            System.out.println("You moved to the south");
+          System.out.println("woooosh! el magic orb te ha teleportao a otra sala!");
+          System.out.println(Dungeon.dungeon[row][col]);
         } else {
-            System.out.println("If you go to the South, you will leave the dungeon. ");
-            leaveTheDungeon();
-
+          equipment[equipmentCount++] = room.getTreasure();
+          System.out.println(name + " found a treasure!");
+          System.out.println(room.getTreasure());
         }
-    } else 
-    // West
-    if (direction == 'W'){
-        if (this.posX - 1 > 0){
-            this.posX--;
-            System.out.println("You moved to the west");
-        } else {
-            System.out.println("If you go to the West, you will leave the dungeon. ");
-            leaveTheDungeon();
-
-        }
-    } else 
-    // East
-    if (direction == 'E'){
-        if (this.posX - 1 > dungeon.length){
-            this.posX--;
-            System.out.println("You moved to the East");
-        } else {
-            System.out.println("If you go to the East, you will leave the dungeon. ");
-            leaveTheDungeon();
-
-        }
+      } else {
+        System.out.println("no treasure found or equipment full"); // no hay espacio
+      }
     } else {
-        System.out.println("Invalid direction");
+      System.out.println("room already explored"); // ya estaba explorada
+    }
+  }
 
+  // metodo pa moverse
+  public boolean move(char direction, Room[][] dungeon) {
+    Room currentRoom = dungeon[row][col]; // sala actual
+    boolean canMove = false; // flag pa saber si se puede mover
+    direction = Character.toUpperCase(direction); // convierte a mayuscula
 
+    // chequea si se cae del dungeon
+    if ((direction == 'N' && row == 0) ||
+        (direction == 'S' && row == dungeon.length - 1) ||
+        (direction == 'E' && col == dungeon[0].length - 1) ||
+        (direction == 'W' && col == 0)) {
+
+      // esquina inferior derecha es la salida
+      if (row == dungeon.length - 1 && col == dungeon[0].length - 1 &&
+          (direction == 'S' || direction == 'E')) {
+        System.out.println("you win...");
+        return true; // se a ganado!!!
+      } else {
+        System.out.println("u fall from the dungeon"); // se cayo
+      }
+      life = 0; // se muere
+      return false;
     }
 
+    // chequea direcciones
+    if (direction == 'N' && currentRoom.getDoors()[0] && row > 0) {
+      canMove = true; // puede ir al norte
+    }
+    if (direction == 'S' && currentRoom.getDoors()[1] && row < dungeon.length - 1) {
+      canMove = true; // puede ir al sur
+    }
+    if (direction == 'E' && currentRoom.getDoors()[2] && col < dungeon[0].length - 1) {
+      canMove = true; // puede ir al este
+    }
+    if (direction == 'W' && currentRoom.getDoors()[3] && col > 0) {
+      canMove = true; // puede ir al oeste
+    }
 
-   }
+    if (canMove) {
+      // efectos especiales de salas
+      if (currentRoom.getType().equals("web")) {
+        System.out.println("uoure trying to move through a sticky web.."); // telaraña
+        if (!roll(strength)) { // intenta liberarse
+          System.out.println("failed to escape the web! You're stuck for now");
+          return false;
+        }
+        System.out.println("you are free from the web!");
+      } else if (currentRoom.getType().equals("bridge")) {
+        System.out.println("carefully crossing the shaky bridge.."); // puente
 
-   // Use this to leave the dungeon, used in the function "move" to not repeat a lot of
-   // code and it can e useful to have it for later
+        if (!roll(agility)) { // intenta cruzar
+          System.out.println("oh no.. fell from the bridge! lost 1 life");
+          life--;
+          if (life <= 0) {
+            return false;
+          }
 
-   private boolean leaveTheDungeon() {
-    // Create variable answer and a Scanner used to ask the user if 
-    // he is sure to leave the Dungeon.
+        } else {
+          System.out.println("you made it safely across!");
+        }
+      }
 
-    Scanner teclado = new Scanner(System.in);
+      // actualiza posicion
+      if (direction == 'N') {
+        row--;
+      } else if (direction == 'S') {
+        row++;
+      } else if (direction == 'E') {
+        col++;
+      } else if (direction == 'W') {
+        col--;
+      }
 
-        char answer = '*';
+      Room newRoom = dungeon[row][col]; // nueva sala
+      System.out.println("\nyou moved to a new room:");
+      if (newRoom.getType().equals("chapel") && !newRoom.isExplored()) {
+        int healAmount = 5 + (int) (Math.random() * 6); // cura entre 5-10
+        life += healAmount;
+        System.out.println("\nYou entered a healing sanctuary! +" + healAmount + " life restored.");
+        newRoom.setExplored(true); // marcamos como explorada
+      }
 
-        // The user wont be able to keep going without answer Y or N (Yes or No)
+      System.out.println(newRoom);
 
-    while (!(answer == 'Y') || !(answer == 'N')){
-    System.out.println("Do you want to leave the dungeon? (Y/N)");
-     answer = teclado.next().charAt(0);
+      // ataque sorpresa de enemigos
+      if (newRoom.getEntity() != null && newRoom.getEntity().getLife() > 0) {
+        System.out.println("the " + newRoom.getEntity().getName() + " attacks as you enter!");
+        life -= newRoom.getEntity().getEscapePenalty();
+        System.out.println("you took " + newRoom.getEntity().getEscapePenalty() + " damage!");
+      }
+    } else {
+      System.out.println("you cant move in that direction! check available exits"); // no se puede mover
+      System.out.println(currentRoom); // muestra la sala actual
+    }
 
-   }
-   // If it says yes we return the true, meaning that he will leave the dungeon
-   if (answer == 'Y'){
-    return true;
-
-    // If not it will return false, meaning that he will stay in the dungeon (for now)
-} else{
     return false;
+  }
 
-}
-}
+  // metodo pa atacar
+  public void attack(Entity entity) {
+    if (entity != null && entity.getLife() > 0) {
+      int damage = 1 + (int) (Math.random() * attack); // daño aleatorio
+      entity.setLife(entity.getLife() - damage); // aplica daño
 
+      System.out.println(name + " attacks and deals " + damage + " damage!");
+
+      if (entity.getLife() <= 0) { // si mata al enemigo
+        int xpGain = damage * 2;
+        experience += xpGain;
+        System.out.println(name + " defeated the entity and gained " + xpGain + " XP!");
+      } else {
+        System.out.println(entity.getName() + " counterattacks!"); // contraataque
+        life--; // pierde vida
+      }
+    } else {
+      System.out.println("no entity to attack!"); // no hay nadie pa pelear
+    }
+  }
+
+  // metodo interno pa tirar dados
+  private boolean roll(int stat) {
+    int roll = 1 + (int) (Math.random() * 12); // tira un dado de 12
+    return roll <= stat; // exito si roll es menor que stat
+  }
+
+  @Override
+  public String toString() {
+    String result = name + " - Life: " + life + ", Agility: " + agility + ", Strength: " + strength + ", Pos: (" + row
+        + "," + col + ")\n";
+    result += "Equipment: ";
+    for (int i = 0; i < equipmentCount; i++) {
+      if (equipment[i] != null) {
+        result += equipment[i].getName() + " "; // lista equipamiento
+      }
+    }
+    result += "\n";
+    return result;
+  }
 }

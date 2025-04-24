@@ -1,62 +1,33 @@
 public class Entity {
-    
-    // Atributos
+  private String name; // nombre del enemigo
+  private int life; // vida del enemigo
+  private int escapePenalty; // daño al escapar
 
-    private String name;
-    private int hp;
-    private int penalty;
-    private boolean alive;
+  public Entity(String name, int life, int escapePenalty) {
+    this.name = name;
+    this.life = life;
+    this.escapePenalty = escapePenalty;
+  }
 
-    // Constructores
+  // getters y setters basicos
+  public int getLife() {
+    return life;
+  }
 
-    public Entity (String name, int hp, int penalty ){
-        this.name = name;
-        this.hp = hp;
-        this.penalty = penalty;
+  public String getName() {
+    return name;
+  }
 
-    }
+  public int getEscapePenalty() {
+    return escapePenalty;
+  }
 
-    // Metodos 
+  public void setLife(int life) {
+    this.life = life;
+  }
 
-    // ----- GETTERS & SETTERS -----------------------------------------------------------------------------------------------
-    
-    public int getHp() {
-        return hp;
-    }
-    public String getName() {
-        return name;
-    }
-    public int getPenalty() {
-        return penalty;
-    }
-    public boolean getAlive(){
-        return alive;
-    }
-
-    public void setAlive(boolean alive) {
-        this.alive = alive;
-    }
-
-    public void setHp(int hp) {
-        this.hp = hp;
-    }
-
-    // ---------------------------------------------------------------------------------------------------------------------------
-
-    public void receiveDamage(int damage, Player player){
-        this.hp -= damage;
-        if (this.hp <= 0) {
-            player.setExperiencie(player.getExperiencie() + (this.hp * 2));
-            this.alive = false;
-            
-            System.out.println("Enemy fainted!");
-            System.out.println("You won " + (this.hp * 2) + " points of experience!");
-
-        } else {
-            player.receiveDamage(1);
-
-        }
-        
-    }
-
+  @Override
+  public String toString() {
+    return "monster: " + name + ", life: " + life; // info del enemigo
+  }
 }

@@ -1,67 +1,92 @@
-import java.util.Random;
-
 public class Room {
-    // String[] type = {"normal", "brigde", "cobweb"}; 
+  private String type; // tipo de sala
+  private Treasure treasure; // tesoro (puede ser null)
+  private Entity entity; // enemigo (puede ser null)
+  private boolean[] doors = new boolean[4]; // puertas (N,S,E,W)
+  private boolean explored; // si ya fue explorada
 
-    Random random = new Random();
+  public Room(String type, Treasure treasure, Entity entity) {
+    this.type = type;
+    this.treasure = treasure;
+    this.entity = entity;
+    this.explored = false;
 
-    private int randomNum = (int) (Math.random() * ((2 - 0) + 1));
-    private String[] arTypes = { "normal", "bridge", "cobweb" };
-    private String type;
+    // genera puertas aleatorias
+    for (int i = 0; i < doors.length; i++) {
+      doors[i] = Math.random() < 0.5; // 50% de posiibildad por puerta
+    }
+  }
 
-    private Treasure treasure;
-    private Entity entity;
+  // getters y setters
+  public String getType() {
+    return type;
+  }
 
-    private char[] doors = { 'N', 'W', 'E', 'S' };
-    private boolean explored;
+  public void setType(String type) {
+    this.type = type;
+  }
 
-    public Room() {
-        generateRoom();
+  public boolean[] getDoors() {
+    return doors;
+  }
 
-        // if bool random treasure is true we set the treasure, else we dont;
+  public Entity getEntity() {
+    return entity;
+  }
 
-        // if bool random entity is true we set the entity, else we dont;
-        // this.entity = new Entity();
-        this.explored = false;
+  public boolean isExplored() {
+    return explored;
+  }
 
+  public void setExplored(boolean explored) {
+    this.explored = explored;
+  }
+
+  public Treasure getTreasure() {
+    return treasure;
+  }
+
+  public void setTreasure(Treasure treasure) {
+    this.treasure = treasure;
+  }
+
+  // mostrar informacion
+  @Override
+  public String toString() {
+    String result = "\n=== room: " + type.toUpperCase() + " ===\n";
+
+    if (type.equals("chapel") && !explored) {
+      result += "no huele un poco raro aqui?...\n";
     }
 
-    private void generateRoom() {
-        double rand = random.nextDouble(10);
-
-        if (rand > 3) {
-            this.type = arTypes[0];
-        } else if (rand > 1.5) {
-            this.type = arTypes[1];
-        } else {
-            this.type = arTypes[2];
-        }
-
-        if (random.nextBoolean()) {
-            // this.treasure = new Treasure();
-        }
-        if (random.nextBoolean()) {
-            // this.entity = new Entity();
-        }
-
+    if (entity != null && entity.getLife() > 0) {
+      result += "!!! cuidao !!! theres a " + this.entity.getName() + " here!\n";
+      result += entity.toString() + "\n";
+    } else {
+      result += "no entities in this room.\n";
     }
 
-    public String getType() {
-        return this.type;
+    if (treasure != null && !explored) { // si la sala no ha sido explorada y hay tesoro
+      result += "there might be treasure here!\n";
     }
 
-    public Treasure getTreasure() {
-        return treasure;
+    result += "available exits: ";
+
+    // lista puertas disponibles
+    if (doors[0]) {
+      result += "N ";
+    }
+    if (doors[1]) {
+      result += "S ";
+    }
+    if (doors[2]) {
+      result += "E ";
+    }
+    if (doors[3]) {
+      result += "W ";
     }
 
-
-    public void setExplored(boolean explored) {
-        this.explored = explored;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
-
+    result += "\n";
+    return result;
+  }
 }
