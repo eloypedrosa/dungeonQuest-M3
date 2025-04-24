@@ -19,6 +19,7 @@ public class Dungeon {
       System.out.println("1. explore current room");
       System.out.println("2. move to another room");
       System.out.println("3. attack entity (if present)");
+      System.out.println("4. give up and die");
       System.out.print("your choice: ");
 
       int choice = scanner.nextInt(); // lee la opcion
@@ -50,8 +51,11 @@ public class Dungeon {
             System.out.println("theres no entity to attack here!"); // no hay nadie para pelear
           }
           break;
+        case 4:
+          player.setLife(0); // Pierde todos los puntos de vida
+          break;
         default:
-          System.out.println("invalid choice! please enter 1, 2, or 3."); // opcion invalida
+          System.out.println("invalid choice! please enter 1, 2, 3, or 4."); // opcion invalida
           break;
       }
 

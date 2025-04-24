@@ -35,6 +35,11 @@ public class Player {
     return col;
   }
 
+    // setter para el metodo de suicidio
+    public void setLife(int life) {
+        this.life = life;
+    }
+
   // metodo pa explorar la sala
   public void explore(Room room) {
     if (!room.isExplored()) { // si no esta explorada
