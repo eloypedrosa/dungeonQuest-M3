@@ -1,6 +1,5 @@
 import java.util.Random;
 import java.util.Scanner;
-
 public class Player {
     
     // Attributes
@@ -204,9 +203,7 @@ public class Player {
          }
         // After exploring, change the room state to explored
         room.setExplored(true);
-
-     
-           
+  
    }
 
 
